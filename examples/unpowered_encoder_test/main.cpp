@@ -2,7 +2,7 @@
 Code for testing that we can run a motor using the DRV8871 motor driver with the Pico. 
 The motor is connected to the DRV8871, and the DRV8871 is connected to the Pico. 
 
-This test runs the motor at a fixed duty cycle. 
+This test does not run the motor. Rather, it just prints out the counts and speed 
 
 Author: Tyler Bartunek
 */
@@ -30,16 +30,15 @@ int main() {
     //0.01 might be acceptable, depending on your use-case.
     motor.set_encoder_filter_parameter(0.001);
 
-    //Set your speed here, needs to be between the values of -10000 and 10000
-    int speed_command = 5000;
 
     //Print the speed we have set the motor to
-    std::cout << "Running motor at a constant speed of 5000, or 50\% duty cycle for testing purposes." << std::endl;
+    std::cout << "Running unpowered encoder test." << std::endl;
 
     while (true) {
         
         //Drive the motor at the specified speed, provided that is our goal. Otherwise, just get the counts and speed readings.
-        motor.drive(speed_command);
+        motor.get_encoder_counts();
+        motor.get_speed();
 
         //Print out the current speed
         std::cout << "Current counts: " << motor.counts << " Current speed: " << motor.speed << std::endl;

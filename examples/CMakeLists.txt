@@ -1,3 +1,4 @@
 
 
 add_subdirectory(fixed_speed_test)
+add_subdirectory(unpowered_encoder_test)
