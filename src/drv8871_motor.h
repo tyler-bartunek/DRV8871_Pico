@@ -65,6 +65,12 @@ class DRV8871Motor {
         //Function prototype for setting weighted average filter parameter for encoder readings
         void set_encoder_filter_parameter(float new_alpha);
 
+        //Function prototype for setting the gear ratio
+        void set_gear_ratio(float ratio);
+
+        //Function prototype for setting the counts per revolution
+        void set_counts_per_rev(float new_counts_per_rev);
+
         //Function prototype for getting the current encoder counts for debugging purposes
         void get_encoder_counts();
 
@@ -96,6 +102,8 @@ class DRV8871Motor {
         //is always high. Speed pin being low corresponds to full speed, so the PWM value is... inverted.
         uint8_t direction_pin;
         uint8_t speed_pin;
+        float gear_ratio = 19;
+        float counts_per_rev = 44;
 
         //Variable for storing the PWM wrap value based on the desired frequency and divider.
         //This is set in the set_pwm_frequency() method and is used to calculate the PWM value in drive().
@@ -121,6 +129,6 @@ class DRV8871Motor {
     public:
 
         //Current encoder counts and speed, stored as volatile for safe access across different contexts (main loop and interrupts)
-        volatile uint32_t counts = 0;
+        volatile int32_t counts = 0;
         volatile int speed = 0;
 };  

@@ -11,7 +11,7 @@ target_link_libraries(QuadratureDecoder PUBLIC
     hardware_dma
 )
 
-add_library(utils STATIC
+add_library(DRV8871 STATIC
     drv8871_motor.cpp
 )
 target_include_directories(DRV8871 PUBLIC ${CMAKE_CURRENT_LIST_DIR})

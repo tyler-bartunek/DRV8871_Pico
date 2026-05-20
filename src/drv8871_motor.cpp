@@ -6,9 +6,6 @@
 
 #include "drv8871_motor.h"
 
-#define GEAR_RATIO 19
-#define ENCODER_COUNTS_PER_REVOLUTION 44
-
 //Utiltiy function for setting pwm_set_enabled and and set_function for a given pair of pins
 void set_drive_pins(uint8_t dir, uint8_t pwr) {
 
@@ -146,6 +143,14 @@ void DRV8871Motor::set_encoder_filter_parameter(float new_alpha){
     this->alpha = new_alpha;
 }
 
+void DRV8871Motor::set_gear_ratio(float ratio){
+    this->gear_ratio = ratio;
+}
+
+void DRV8871Motor::set_counts_per_rev(float new_counts_per_rev){
+    this->counts_per_rev = new_counts_per_rev;
+}
+
 void DRV8871Motor::get_encoder_counts() {
     //Utility function to get the current encoder counts for debugging purposes
     this->counts = this->encoder.getCount(this->encoder_idx); //Get the current encoder counts using the encoder library's getCount function, which reads the current count value from the specified encoder index. This allows for tracking the position and speed of the motor based on the encoder readings.
@@ -167,7 +172,7 @@ void DRV8871Motor::get_speed() {
 
     //Calculate the new speed based on the change in encoder counts, gear ratio, and counts per revolution to obtain speed in millirad/s 
     //Gear ratio is GEAR_RATIO:1 reduction, PicoEncoder counts per revolution is ENCODER_COUNTS_PER_REVOLUTION
-    new_speed = (int)(((float)encoder_diff * 2.0f * M_PI * 1000.0f) / (dt * GEAR_RATIO * ENCODER_COUNTS_PER_REVOLUTION)); //Calculate the new speed in millirad/s based on the change in encoder counts, time interval, gear ratio, and counts per revolution. The factor of 1000 is used to convert from rad/s to millirad/s for better resolution in the speed value.
+    new_speed = (int)(((float)encoder_diff * 2.0f * M_PI * 1000.0f) / (dt * this->gear_ratio * this->counts_per_rev)); //Calculate the new speed in millirad/s based on the change in encoder counts, time interval, gear ratio, and counts per revolution. The factor of 1000 is used to convert from rad/s to millirad/s for better resolution in the speed value.
 
     //Check if the sign of counts changed without a change in direction. 
     if ((direction == prev_direction) && (count_sign_check ^ prev_sign_check)){
