@@ -14,8 +14,8 @@ target_link_libraries(QuadratureDecoder PUBLIC
 add_library(utils STATIC
     drv8871_motor.cpp
 )
-target_include_directories(utils PUBLIC ${CMAKE_CURRENT_LIST_DIR})
-target_link_libraries(utils PUBLIC
+target_include_directories(DRV8871 PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+target_link_libraries(DRV8871 PUBLIC
     hardware_pwm
     hardware_gpio
     pico_stdlib
